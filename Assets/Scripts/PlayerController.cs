@@ -10,10 +10,14 @@ public class PlayerController : MonoBehaviour
 
     private bool onGround;
     private bool falling;
+    private bool goldDoorOpened, silverDoorOpened, bronzeDoorOpened;
+
+    private Vector2 goldDoorPos, silverDoorPos, bronzeDoorPos;
 
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    public List<GameObject> LIST_DOOR;
 
     // Start is called before the first frame update
     void Start()
@@ -21,12 +25,16 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        goldDoorPos.y = LIST_DOOR[0].transform.position.y - 1.5f;
+        silverDoorPos.x = LIST_DOOR[1].transform.position.x - 1.5f;
+        bronzeDoorPos.y = LIST_DOOR[2].transform.position.y - 1.5f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Lose();
+        //Lose();
+        CheckDoorsOpen();
     }
 
     void FixedUpdate()
@@ -46,34 +54,105 @@ public class PlayerController : MonoBehaviour
         //Enemy B Collision
         if(collision.gameObject.tag == "Enemy")
         {
-            //GameManager.instance.MinusHealth();
+            GameManager.instance.MinusHealth();
         }
+
+        //Collide with door
+        if (collision.gameObject.tag == "GoldDoor")
+        {
+            if (GameManager.instance.goldCount == 1)
+            {
+                goldDoorOpened = true;
+            }
+        }
+        else if (collision.gameObject.tag == "SilverDoor")
+        {
+            if (GameManager.instance.silverCount == 1)
+            {
+                silverDoorOpened = true;
+            }
+        }
+        else if (collision.gameObject.tag == "BronzeDoor")
+        {
+            if (GameManager.instance.bronzeCount == 1)
+            {
+                bronzeDoorOpened = true;
+            }
+        }
+    }
+
+    private void CheckDoorsOpen()
+    {
+        if (goldDoorOpened == true)
+            if (LIST_DOOR[0].transform.position.y >= goldDoorPos.y)
+            {
+                LIST_DOOR[0].transform.Translate(Vector3.down * 3 * Time.deltaTime);
+                BoxCollider2D bx = LIST_DOOR[0].GetComponent<BoxCollider2D>();
+                bx.isTrigger = true;
+            }
+
+        if (silverDoorOpened == true)
+            if (LIST_DOOR[1].transform.position.x >= silverDoorPos.x)
+            {
+                LIST_DOOR[1].transform.Translate(Vector3.down * 3 * Time.deltaTime);
+                BoxCollider2D bx = LIST_DOOR[1].GetComponent<BoxCollider2D>();
+                bx.isTrigger = true;
+            }
+
+        if (bronzeDoorOpened == true)
+            if (LIST_DOOR[2].transform.position.y >= bronzeDoorPos.y)
+            {
+                LIST_DOOR[2].transform.Translate(Vector3.down * 3 * Time.deltaTime);
+                BoxCollider2D bx = LIST_DOOR[2].GetComponent<BoxCollider2D>();
+                bx.isTrigger = true;
+            }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
         //Enemy A Collision
-        if(collision.gameObject.tag == "Enemy")
-        {
-            //GameManager.instance.MinusHealth();
-        }
+        //if (collision.gameObject.tag == "Enemy")
+        //{
+        //    //GameManager.instance.MinusHealth();
+        //}
 
-        if (collision.gameObject.tag == "Health")
+        //if (collision.gameObject.tag == "Health")
+        //{
+        //    //GameManager.instance.AddHealth();
+        //    Destroy(collision.gameObject);
+        //}
+
+        //if (collision.gameObject.tag == "Coins")
+        //{
+        //    //GameManager.instance.AddCoins();
+        //    Destroy(collision.gameObject);
+        //}
+
+        //if (collision.gameObject.tag == "EndGoal")
+        //{
+        //    //GameManager.instance.WinScene();
+        //    PlayerDied();
+        //}
+
+
+        //Collide with coin
+        if (collision.gameObject.CompareTag("Gold"))
         {
-            //GameManager.instance.AddHealth();
+            GameManager.instance.goldCount++;
+            GameManager.instance.goldTxt.text = "1/1";
             Destroy(collision.gameObject);
         }
-
-        if (collision.gameObject.tag == "Coins")
+        else if (collision.gameObject.CompareTag("Silver"))
         {
-            //GameManager.instance.AddCoins();
+            GameManager.instance.silverCount++;
+            GameManager.instance.silverTxt.text = "1/1";
             Destroy(collision.gameObject);
         }
-
-        if (collision.gameObject.tag == "EndGoal")
+        else if (collision.gameObject.CompareTag("Bronze"))
         {
-            //GameManager.instance.WinScene();
-            PlayerDied();
+            GameManager.instance.bronzeCount++;
+            GameManager.instance.bronzeTxt.text = "1/1";
+            Destroy(collision.gameObject);
         }
     }
 
@@ -151,12 +230,12 @@ public class PlayerController : MonoBehaviour
         Destroy(gameObject);
     }
     
-    public void Lose()
-    {
-        if (GameManager.instance.currentHealth <= 0)
-        {
-        //    GameManager.instance.LoseScene();
-            PlayerDied();
-        }
-    }
+    //public void Lose()
+    //{
+    //    if (GameManager.instance.currentHealth <= 0)
+    //    {
+    //    //    GameManager.instance.LoseScene();
+    //        PlayerDied();
+    //    }
+    //}
 }
