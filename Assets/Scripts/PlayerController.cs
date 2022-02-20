@@ -60,21 +60,21 @@ public class PlayerController : MonoBehaviour
         //Collide with door
         if (collision.gameObject.tag == "GoldDoor")
         {
-            if (GameManager.instance.goldCount == 1)
+            if (GameManager.instance.goldCollected == GameManager.instance.goldCount)
             {
                 goldDoorOpened = true;
             }
         }
         else if (collision.gameObject.tag == "SilverDoor")
         {
-            if (GameManager.instance.silverCount == 1)
+            if (GameManager.instance.silverCollected == GameManager.instance.silverCount)
             {
                 silverDoorOpened = true;
             }
         }
         else if (collision.gameObject.tag == "BronzeDoor")
         {
-            if (GameManager.instance.bronzeCount == 1)
+            if (GameManager.instance.bronzeCollected == GameManager.instance.bronzeCount)
             {
                 bronzeDoorOpened = true;
             }
@@ -138,20 +138,20 @@ public class PlayerController : MonoBehaviour
         //Collide with coin
         if (collision.gameObject.CompareTag("Gold"))
         {
-            GameManager.instance.goldCount++;
-            GameManager.instance.goldTxt.text = "1/1";
+            GameManager.instance.goldCollected++;
+            GameManager.instance.goldTxt.text = GameManager.instance.goldCollected + "/" + GameManager.instance.goldCount;
             Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Silver"))
         {
-            GameManager.instance.silverCount++;
-            GameManager.instance.silverTxt.text = "1/1";
+            GameManager.instance.silverCollected++;
+            GameManager.instance.silverTxt.text = GameManager.instance.silverCollected + "/" + GameManager.instance.silverCount;
             Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Bronze"))
         {
-            GameManager.instance.bronzeCount++;
-            GameManager.instance.bronzeTxt.text = "1/1";
+            GameManager.instance.bronzeCollected++;
+            GameManager.instance.bronzeTxt.text = GameManager.instance.bronzeCollected + "/" + GameManager.instance.bronzeCount;
             Destroy(collision.gameObject);
         }
     }

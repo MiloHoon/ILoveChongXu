@@ -22,8 +22,10 @@ public class GameManager : MonoBehaviour
     [Space(10)]
     public Text goldTxt, silverTxt, bronzeTxt;
     public List<Image> LIST_HEART;
+    public GameObject[] GoldCoin, SilverCoin, BronzeCoin;
     [HideInInspector]
     public int goldCount, silverCount, bronzeCount;
+    public int goldCollected, silverCollected, bronzeCollected;
 
     //    [HideInInspector]
     //    public GameObject[] coinsOnScene;
@@ -46,13 +48,25 @@ public class GameManager : MonoBehaviour
 
         // Get The Variable From PlayerPref To Display On NailText
         // currentCoins = PlayerPrefs.GetInt("PlayerCurrentCoins");
+
+        GoldCoin = GameObject.FindGameObjectsWithTag("Gold");
+        SilverCoin = GameObject.FindGameObjectsWithTag("Silver");
+        BronzeCoin = GameObject.FindGameObjectsWithTag("Bronze");
+
+
+        goldCount = GoldCoin.Length;
+        silverCount = SilverCoin.Length;
+        bronzeCount = BronzeCoin.Length;
     }
 
     // Update is called once per frame
     void Update()
     {
-       // Health();
-//        Nails();
+        // Health();
+        //        Nails();
+        goldTxt.text = goldCollected + "/" + goldCount;
+        silverTxt.text = silverCollected + "/" + silverCount;
+        bronzeTxt.text = bronzeCollected + "/" + bronzeCount;
     }
 
     private void Health()
