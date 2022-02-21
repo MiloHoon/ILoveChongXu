@@ -128,11 +128,11 @@ public class PlayerController : MonoBehaviour
         //    Destroy(collision.gameObject);
         //}
 
-        //if (collision.gameObject.tag == "EndGoal")
-        //{
-        //    //GameManager.instance.WinScene();
-        //    PlayerDied();
-        //}
+        if (collision.gameObject.tag == "EndGoal")
+        {
+            GameManager.instance.WinLoseScene(true);
+           // PlayerDied();
+        }
 
 
         //Collide with coin

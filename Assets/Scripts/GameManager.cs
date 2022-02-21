@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,8 +14,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool healthMax;
 
-    public Text healthText;
-    public Text coinsText;
+    //public Text healthText;
+    //public Text coinsText;
+    public Image GameOverBG;
+    public Text gameOverTxt;
     //    public GameObject winHUD;
     //    public GameObject loseHUD;
 
@@ -33,12 +36,18 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
+
         if (instance == null)
         {
             instance = this;
         }
 
         currentHealth = 3;
+
+        GameOverBG.gameObject.SetActive(false);
+        foreach (Transform child in GameOverBG.gameObject.transform)
+            child.gameObject.SetActive(false);
         // Hide The Win/Lose HUD On Start
         //        winHUD.SetActive(false);
         //        loseHUD.SetActive(false);
@@ -59,6 +68,27 @@ public class GameManager : MonoBehaviour
         bronzeCount = BronzeCoin.Length;
     }
 
+
+    public void PlayerWin(bool win)
+    {
+        if (win == false)
+        {
+            GameOverBG.gameObject.SetActive(true);
+            foreach (Transform child in GameOverBG.gameObject.transform)
+                child.gameObject.SetActive(true);
+            gameOverTxt.text = "Game Over";
+            gameOverTxt.color = Color.red;
+        }
+        else
+        {
+            GameOverBG.gameObject.SetActive(true);
+            foreach (Transform child in GameOverBG.gameObject.transform)
+                child.gameObject.SetActive(true);
+            gameOverTxt.text = "Game Win";
+            gameOverTxt.color = Color.yellow;
+        }
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -67,11 +97,16 @@ public class GameManager : MonoBehaviour
         goldTxt.text = goldCollected + "/" + goldCount;
         silverTxt.text = silverCollected + "/" + silverCount;
         bronzeTxt.text = bronzeCollected + "/" + bronzeCount;
+
+        if (Time.timeScale == 0)
+            if (Input.GetKeyDown(KeyCode.Return))
+                SceneManager.LoadScene("GameScene");
+
     }
 
     private void Health()
     {
-        healthText.text = "Health: " + currentHealth;
+       // healthText.text = "Health: " + currentHealth;
 
         //Check If Player's Health Is Full
         if(currentHealth == 3)
@@ -106,7 +141,10 @@ public class GameManager : MonoBehaviour
             else if (currentHealth == 1)
                 LIST_HEART[1].gameObject.SetActive(false);
             else
+            {
                 LIST_HEART[0].gameObject.SetActive(false);
+                WinLoseScene(false);
+            }
         }
         // currentHealth -= 1;
         // PlayerPrefs.SetInt("PlayerCurrentLives", currentHealth);
@@ -124,13 +162,15 @@ public class GameManager : MonoBehaviour
     //    PlayerPrefs.SetInt("PlayerCurrentCoins", currentCoins);
     //}
 
-    /*public void WinScene()
-    {
-        winHUD.SetActive(true);
-    }
+    //public void WinScene()
+    //{
+    //    winHUD.SetActive(true);
+    //}
 
-    public void LoseScene()
+    public void WinLoseScene(bool playerWin)
     {
-        loseHUD.SetActive(true);
-    }*/
+        // loseHUD.SetActive(true);
+        PlayerWin(playerWin);
+        Time.timeScale = 0;
+    }
 }
