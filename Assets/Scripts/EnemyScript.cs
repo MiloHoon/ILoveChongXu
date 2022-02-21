@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyScript : MonoBehaviour
 {
     private bool flip;
 
     private SpriteRenderer spRender;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +25,6 @@ public class Enemy : MonoBehaviour
             transform.Translate(Vector2.left * 3 * Time.deltaTime);
             spRender.flipX = false;
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

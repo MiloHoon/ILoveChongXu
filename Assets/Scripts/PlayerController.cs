@@ -30,17 +30,11 @@ public class PlayerController : MonoBehaviour
         bronzeDoorPos.y = LIST_DOOR[2].transform.position.y - 1.5f;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Lose();
-        CheckDoorsOpen();
-    }
-
     void FixedUpdate()
     {
         Movement();
         Jump();
+        CheckDoorsOpen();
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
@@ -51,13 +45,13 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isGrounded", true);
         }
         
-        //Enemy B Collision
+        //Enemy Collision
         if(collision.gameObject.tag == "Enemy")
         {
             GameManager.instance.MinusHealth();
         }
 
-        //Collide with door
+        //Collide With Door
         if (collision.gameObject.tag == "GoldDoor")
         {
             if (GameManager.instance.goldCollected == GameManager.instance.goldCount)
@@ -81,40 +75,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckDoorsOpen()
-    {
-        if (goldDoorOpened == true)
-            if (LIST_DOOR[0].transform.position.y >= goldDoorPos.y)
-            {
-                LIST_DOOR[0].transform.Translate(Vector3.down * 3 * Time.deltaTime);
-                BoxCollider2D bx = LIST_DOOR[0].GetComponent<BoxCollider2D>();
-                bx.isTrigger = true;
-            }
-
-        if (silverDoorOpened == true)
-            if (LIST_DOOR[1].transform.position.x >= silverDoorPos.x)
-            {
-                LIST_DOOR[1].transform.Translate(Vector3.down * 3 * Time.deltaTime);
-                BoxCollider2D bx = LIST_DOOR[1].GetComponent<BoxCollider2D>();
-                bx.isTrigger = true;
-            }
-
-        if (bronzeDoorOpened == true)
-            if (LIST_DOOR[2].transform.position.y >= bronzeDoorPos.y)
-            {
-                LIST_DOOR[2].transform.Translate(Vector3.down * 3 * Time.deltaTime);
-                BoxCollider2D bx = LIST_DOOR[2].GetComponent<BoxCollider2D>();
-                bx.isTrigger = true;
-            }
-    }
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //Enemy A Collision
-        //if (collision.gameObject.tag == "Enemy")
-        //{
-        //    //GameManager.instance.MinusHealth();
-        //}
+        //Spike Collision
+        if (collision.gameObject.tag == "Spike")
+        {
+            GameManager.instance.MinusHealth();
+        }
 
         //if (collision.gameObject.tag == "Health")
         //{
@@ -122,20 +89,13 @@ public class PlayerController : MonoBehaviour
         //    Destroy(collision.gameObject);
         //}
 
-        //if (collision.gameObject.tag == "Coins")
-        //{
-        //    //GameManager.instance.AddCoins();
-        //    Destroy(collision.gameObject);
-        //}
-
+        //Collide With Flag
         if (collision.gameObject.tag == "EndGoal")
         {
             GameManager.instance.WinLoseScene(true);
-           // PlayerDied();
         }
 
-
-        //Collide with coin
+        //Collide With Coins
         if (collision.gameObject.CompareTag("Gold"))
         {
             GameManager.instance.goldCollected++;
@@ -225,17 +185,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PlayerDied()
+    private void CheckDoorsOpen()
     {
-        Destroy(gameObject);
+        if (goldDoorOpened == true)
+        {
+            if (LIST_DOOR[0].transform.position.y >= goldDoorPos.y)
+            {
+                LIST_DOOR[0].transform.Translate(Vector3.down * 3 * Time.deltaTime);
+                BoxCollider2D bx = LIST_DOOR[0].GetComponent<BoxCollider2D>();
+                bx.isTrigger = true;
+            }
+        }
+        
+        if (silverDoorOpened == true)
+        {
+            if (LIST_DOOR[1].transform.position.x >= silverDoorPos.x)
+            {
+                LIST_DOOR[1].transform.Translate(Vector3.down * 3 * Time.deltaTime);
+                BoxCollider2D bx = LIST_DOOR[1].GetComponent<BoxCollider2D>();
+                bx.isTrigger = true;
+            }
+        }
+        
+        if (bronzeDoorOpened == true)
+        {
+            if (LIST_DOOR[2].transform.position.y >= bronzeDoorPos.y)
+            {
+                LIST_DOOR[2].transform.Translate(Vector3.down * 3 * Time.deltaTime);
+                BoxCollider2D bx = LIST_DOOR[2].GetComponent<BoxCollider2D>();
+                bx.isTrigger = true;
+            }
+        }
     }
-    
-    //public void Lose()
-    //{
-    //    if (GameManager.instance.currentHealth <= 0)
-    //    {
-    //    //    GameManager.instance.LoseScene();
-    //        PlayerDied();
-    //    }
-    //}
 }
