@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                SceneManager.LoadScene("GameScene");
+                SceneManager.LoadScene("MainMenuScene");
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
                 if (playerEnd == false)
                     PlayerWin(true, 1);
                 else
-                    SceneManager.LoadScene("GameScene");
+                    SceneManager.LoadScene("MainMenuScene");
             }
         }
         else if (Time.timeScale == 1)
