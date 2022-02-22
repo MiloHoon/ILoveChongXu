@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
         }
 
         GameOverBG.gameObject.SetActive(false);
+        escText.gameObject.SetActive(false);
         foreach (Transform child in GameOverBG.gameObject.transform)
             child.gameObject.SetActive(false);
 
@@ -50,27 +51,56 @@ public class GameManager : MonoBehaviour
         bronzeCount = BronzeCoin.Length;
     }
 
-    public void PlayerWin(bool win)
+    public Text escText;
+    public void PlayerWin(bool win, int Pausing)
     {
-        if (win == false)
+        Time.timeScale = 0;
+        if(Pausing == 0)
         {
-            GameOverBG.gameObject.SetActive(true);
-            foreach (Transform child in GameOverBG.gameObject.transform)
-                child.gameObject.SetActive(true);
+            if (win == false)
+            {
+                GameOverBG.gameObject.SetActive(true);
+                foreach (Transform child in GameOverBG.gameObject.transform)
+                    child.gameObject.SetActive(true);
 
-            gameOverTxt.text = "Game Over";
-            gameOverTxt.color = Color.red;
+                gameOverTxt.text = "Game Over";
+                gameOverTxt.color = Color.red;
+            }
+            else
+            {
+                GameOverBG.gameObject.SetActive(true);
+                foreach (Transform child in GameOverBG.gameObject.transform)
+                    child.gameObject.SetActive(true);
+
+                gameOverTxt.text = "Game Win";
+                gameOverTxt.color = Color.yellow;
+            }
         }
         else
         {
-            GameOverBG.gameObject.SetActive(true);
-            foreach (Transform child in GameOverBG.gameObject.transform)
-                child.gameObject.SetActive(true);
+            if (win == false)
+            {
+                GameOverBG.gameObject.SetActive(true);
+                escText.gameObject.SetActive(true);
+                foreach (Transform child in GameOverBG.gameObject.transform)
+                    child.gameObject.SetActive(true);
 
-            gameOverTxt.text = "Game Win";
-            gameOverTxt.color = Color.yellow;
+                gameOverTxt.text = "Pausing";
+                gameOverTxt.color = Color.white;
+            }
+            else
+            {
+                GameOverBG.gameObject.SetActive(false);
+                escText.gameObject.SetActive(false);
+                foreach (Transform child in GameOverBG.gameObject.transform)
+                    child.gameObject.SetActive(false);
+
+                Time.timeScale = 1;
+            }
         }
     }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -84,30 +114,16 @@ public class GameManager : MonoBehaviour
             {
                 SceneManager.LoadScene("GameScene");
             }
-        }        
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                PlayerWin(true, 1);
+            }
+        }
+        else if (Time.timeScale == 1)
+            if (Input.GetKeyDown(KeyCode.Escape))
+                PlayerWin(false, 1);
     }
-
-    /*private void Health()
-    {
-        //Check If Player's Health Is Full
-        if(currentHealth == 3)
-        {
-            healthMax = true;
-        }
-        //If Player's Health Below The Max Health, He/She Can Gain A Single Health Point
-        else if(currentHealth <= 2)
-        {
-            healthMax = false;
-        }
-    }*/
-
-    /*public void AddHealth()
-    {
-        if (healthMax == false)
-        {
-            currentHealth += 1;
-        }
-    }*/
 
     public void MinusHealth()
     {
@@ -130,7 +146,6 @@ public class GameManager : MonoBehaviour
 
     public void WinLoseScene(bool playerWin)
     {
-        PlayerWin(playerWin);
-        Time.timeScale = 0;
+        PlayerWin(playerWin,0);
     }
 }
