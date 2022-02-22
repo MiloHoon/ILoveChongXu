@@ -19,6 +19,12 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public List<GameObject> LIST_DOOR;
 
+    //[SerializeField]
+    //[Space(10)]
+    //public AudioSource audioSource;
+    //public AudioClip[] LIST_AUDIOCLIP;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,12 +89,6 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.MinusHealth();
         }
 
-        //if (collision.gameObject.tag == "Health")
-        //{
-        //    //GameManager.instance.AddHealth();
-        //    Destroy(collision.gameObject);
-        //}
-
         //Collide With Flag
         if (collision.gameObject.tag == "EndGoal")
         {
@@ -99,19 +99,16 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Gold"))
         {
             GameManager.instance.goldCollected++;
-            GameManager.instance.goldTxt.text = GameManager.instance.goldCollected + "/" + GameManager.instance.goldCount;
             Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Silver"))
         {
             GameManager.instance.silverCollected++;
-            GameManager.instance.silverTxt.text = GameManager.instance.silverCollected + "/" + GameManager.instance.silverCount;
             Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Bronze"))
         {
             GameManager.instance.bronzeCollected++;
-            GameManager.instance.bronzeTxt.text = GameManager.instance.bronzeCollected + "/" + GameManager.instance.bronzeCount;
             Destroy(collision.gameObject);
         }
     }

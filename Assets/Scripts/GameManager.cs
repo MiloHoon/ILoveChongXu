@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     private int currentHealth = 3;
+    private bool playerEnd = false;
 
     //[HideInInspector]
     //public bool healthMax;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
         bronzeCount = BronzeCoin.Length;
     }
 
+    [Space(10)]
     public Text escText;
     public void PlayerWin(bool win, int Pausing)
     {
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
         {
             if (win == false)
             {
+                playerEnd = true;
                 GameOverBG.gameObject.SetActive(true);
                 foreach (Transform child in GameOverBG.gameObject.transform)
                     child.gameObject.SetActive(true);
@@ -68,6 +71,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                playerEnd = true;
                 GameOverBG.gameObject.SetActive(true);
                 foreach (Transform child in GameOverBG.gameObject.transform)
                     child.gameObject.SetActive(true);
@@ -117,7 +121,10 @@ public class GameManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                PlayerWin(true, 1);
+                if (playerEnd == false)
+                    PlayerWin(true, 1);
+                else
+                    SceneManager.LoadScene("GameScene");
             }
         }
         else if (Time.timeScale == 1)
