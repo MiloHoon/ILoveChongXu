@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
     //public AudioSource audioSource;
     //public AudioClip[] LIST_AUDIOCLIP;
 
-
     // Start is called before the first frame update
     void Start()
     {

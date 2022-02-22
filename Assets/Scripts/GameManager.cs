@@ -11,13 +11,10 @@ public class GameManager : MonoBehaviour
     private int currentHealth = 3;
     private bool playerEnd = false;
 
-    //[HideInInspector]
-    //public bool healthMax;
-
     public Image GameOverBG;
     public Text gameOverTxt;
 
-    // ask chongxu for what add [SerializeField], why not [HideInInspector]
+    //Ask Chongxu For What Add [SerializeField], Why Not [HideInInspector]?
     [SerializeField]
     [Space(10)]
     public Text goldTxt, silverTxt, bronzeTxt;
