@@ -6308,6 +6308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverBG: {fileID: 802315425}
   gameOverTxt: {fileID: 1376722629}
+  PLAYER_CONTROLLER: {fileID: 1184968837}
   goldTxt: {fileID: 2091999542}
   silverTxt: {fileID: 871245138}
   bronzeTxt: {fileID: 375243295}
@@ -6664,6 +6665,15 @@ MonoBehaviour:
   - {fileID: 1059517735}
   - {fileID: 492101429}
   - {fileID: 1393749067}
+  audioSource: {fileID: 1184968841}
+  BGM: {fileID: 0}
+  winClip: {fileID: 8300000, guid: 68a37c48e615dfa47bcfeea3ac926bce, type: 3}
+  loseClip: {fileID: 8300000, guid: 97a33722bd9365e4890b9dbc1a1ade82, type: 3}
+  jumpClip: {fileID: 8300000, guid: 9bf6d8f3e4e124e40a7f4b0a37e935a2, type: 3}
+  coinClip: {fileID: 8300000, guid: 78812fb928184ed428c5508612c5ca0d, type: 3}
+  walkClip: {fileID: 8300000, guid: e3f4e3d8b297a0a4196e87321efe4280, type: 3}
+  doorClip: {fileID: 8300000, guid: e8ec89db3b5349346b68c523cfadad43, type: 3}
+  hurtClip: {fileID: 8300000, guid: 5b417a9d35f77d945ac88613a0a833cc, type: 3}
 --- !u!50 &1184968838
 Rigidbody2D:
   serializedVersion: 4
@@ -6730,8 +6740,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 9bf6d8f3e4e124e40a7f4b0a37e935a2, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

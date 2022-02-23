@@ -18,10 +18,10 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     public List<GameObject> LIST_DOOR;
-    //[SerializeField]
-    //[Space(10)]
-    //public AudioSource audioSource;
-    //public AudioClip[] LIST_AUDIOCLIP;
+    [SerializeField]
+    [Space(10)]
+    public AudioSource audioSource;
+    public AudioClip BGM,winClip, loseClip, jumpClip, coinClip, walkClip, doorClip, hurtClip;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +32,12 @@ public class PlayerController : MonoBehaviour
         goldDoorPos.y = LIST_DOOR[0].transform.position.y - 1.5f;
         silverDoorPos.x = LIST_DOOR[1].transform.position.x - 1.5f;
         bronzeDoorPos.y = LIST_DOOR[2].transform.position.y - 1.5f;
+
+        if (BGM != null)
+        {
+            audioSource.clip = BGM;
+            audioSource.loop = true;
+        }
     }
 
     void FixedUpdate()
@@ -43,15 +49,18 @@ public class PlayerController : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
             onGround = true;
             animator.SetBool("isGrounded", true);
         }
+        else
+            onGround = false;
         
         //Enemy Collision
         if(collision.gameObject.tag == "Enemy")
         {
+            audioSource.PlayOneShot(hurtClip);
             GameManager.instance.MinusHealth();
         }
 
@@ -60,6 +69,7 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.instance.goldCollected == GameManager.instance.goldCount)
             {
+                audioSource.PlayOneShot(doorClip);
                 goldDoorOpened = true;
             }
         }
@@ -67,6 +77,7 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.instance.silverCollected == GameManager.instance.silverCount)
             {
+                audioSource.PlayOneShot(doorClip);
                 silverDoorOpened = true;
             }
         }
@@ -74,6 +85,7 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.instance.bronzeCollected == GameManager.instance.bronzeCount)
             {
+                audioSource.PlayOneShot(doorClip);
                 bronzeDoorOpened = true;
             }
         }
@@ -84,29 +96,38 @@ public class PlayerController : MonoBehaviour
         //Spike Collision
         if (collision.gameObject.tag == "Spike")
         {
+            audioSource.PlayOneShot(hurtClip); 
             GameManager.instance.MinusHealth();
         }
 
         //Collide With Flag
         if (collision.gameObject.tag == "EndGoal")
         {
+            if (audioSource.isPlaying)
+                audioSource.Stop();
+            audioSource.clip = winClip;
+            audioSource.Play();
+            audioSource.loop = false ;
             GameManager.instance.WinLoseScene(true);
         }
 
         //Collide With Coins
         if (collision.gameObject.CompareTag("Gold"))
         {
+            audioSource.PlayOneShot(coinClip);
             GameManager.instance.goldCollected++;
             Destroy(collision.gameObject);
             
         }
         else if (collision.gameObject.CompareTag("Silver"))
         {
+            audioSource.PlayOneShot(coinClip);
             GameManager.instance.silverCollected++;
             Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Bronze"))
         {
+            audioSource.PlayOneShot(coinClip);
             GameManager.instance.bronzeCollected++;
             Destroy(collision.gameObject);
         }
@@ -138,6 +159,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
+            if ( !audioSource.isPlaying && onGround == true)
+                audioSource.PlayOneShot(walkClip);
+
             transform.position += transform.right * moveSpeed * Time.deltaTime;
             //Flip Sprite To Right Side
             spriteRenderer.flipX = false;
@@ -146,6 +170,9 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
+            if (!audioSource.isPlaying && onGround == true)
+                audioSource.PlayOneShot(walkClip);
+
             transform.position += transform.right * -moveSpeed * Time.deltaTime;
             //Flip Sprite To Left Side
             spriteRenderer.flipX = true;
@@ -163,6 +190,9 @@ public class PlayerController : MonoBehaviour
         //Jump
         if (Input.GetKey(KeyCode.Space) && onGround && falling == false)
         {
+            audioSource.clip = jumpClip;
+            audioSource.Play();
+
             rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
                 onGround = false;
             //Play Jumping Animation

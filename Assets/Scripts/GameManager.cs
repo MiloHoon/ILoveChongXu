@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public Image GameOverBG;
     public Text gameOverTxt;
+    public PlayerController PLAYER_CONTROLLER;
 
     //Ask Chongxu For What Add [SerializeField], Why Not [HideInInspector]?
     [SerializeField]
@@ -63,6 +64,13 @@ public class GameManager : MonoBehaviour
                 foreach (Transform child in GameOverBG.gameObject.transform)
                     child.gameObject.SetActive(true);
 
+                if (PLAYER_CONTROLLER.audioSource.isPlaying)
+                    PLAYER_CONTROLLER.audioSource.Stop();
+
+                PLAYER_CONTROLLER.audioSource.clip = PLAYER_CONTROLLER.loseClip;
+                PLAYER_CONTROLLER.audioSource.Play();
+                PLAYER_CONTROLLER.audioSource.loop = false;
+
                 gameOverTxt.text = "Game Over";
                 gameOverTxt.color = Color.red;
             }
@@ -72,6 +80,7 @@ public class GameManager : MonoBehaviour
                 GameOverBG.gameObject.SetActive(true);
                 foreach (Transform child in GameOverBG.gameObject.transform)
                     child.gameObject.SetActive(true);
+
 
                 gameOverTxt.text = "Game Win";
                 gameOverTxt.color = Color.yellow;
