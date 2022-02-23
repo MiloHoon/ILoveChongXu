@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     public List<GameObject> LIST_DOOR;
-
     //[SerializeField]
     //[Space(10)]
     //public AudioSource audioSource;
@@ -99,6 +98,7 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.instance.goldCollected++;
             Destroy(collision.gameObject);
+            
         }
         else if (collision.gameObject.CompareTag("Silver"))
         {
