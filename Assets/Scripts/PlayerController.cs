@@ -17,7 +17,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+
+    [SerializeField]
+    [Space(10)]
     public List<GameObject> LIST_DOOR;
+
     [SerializeField]
     [Space(10)]
     public AudioSource audioSource;

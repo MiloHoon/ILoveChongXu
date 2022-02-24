@@ -15,15 +15,20 @@ public class GameManager : MonoBehaviour
     public Text gameOverTxt;
     public PlayerController PLAYER_CONTROLLER;
 
-    //Ask Chongxu For What Add [SerializeField], Why Not [HideInInspector]?
     [SerializeField]
     [Space(10)]
     public Text goldTxt, silverTxt, bronzeTxt;
+
+    [SerializeField]
+    [Space(10)]
     public List<Image> LIST_HEART;
+
+    [HideInInspector]
     public GameObject[] GoldCoin, SilverCoin, BronzeCoin;
 
     [HideInInspector]
     public int goldCount, silverCount, bronzeCount;
+    [HideInInspector]
     public int goldCollected, silverCollected, bronzeCollected;
 
     // Start is called before the first frame update
