@@ -6,6 +6,7 @@ public class CameraFollow : MonoBehaviour
     public float smoothFactor;
 
     private Transform playerTransform;
+    public AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()

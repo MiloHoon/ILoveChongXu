@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Space(10)]
     public AudioSource audioSource;
-    public AudioClip BGM,winClip, loseClip, jumpClip, coinClip, walkClip, doorClip, hurtClip;
+    public AudioClip winClip, loseClip, jumpClip, coinClip, walkClip, doorClip, hurtClip;
 
     // Start is called before the first frame update
     void Start()
@@ -36,12 +36,6 @@ public class PlayerController : MonoBehaviour
         goldDoorPos.y = LIST_DOOR[0].transform.position.y - 1.5f;
         silverDoorPos.x = LIST_DOOR[1].transform.position.x - 1.5f;
         bronzeDoorPos.y = LIST_DOOR[2].transform.position.y - 1.5f;
-
-        if (BGM != null)
-        {
-            audioSource.clip = BGM;
-            audioSource.loop = true;
-        }
     }
 
     void FixedUpdate()
